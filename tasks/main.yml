@@ -1,14 +1,8 @@
 ---
-- name: create rename-tab.sh file
-  template:
-    src: rename-tab.sh.j2
-    dest: ~/bin/rename-tab.sh
-  tags:
-    - rename-terminal-tab
-
-- name: add call to rename-tab.sh to .bashrc
-  lineinfile:
+- name: update .bashrc file
+  replace:
     dest: ~/.bashrc
-    line: ~/bin/rename-tab.sh
+    regexp: \\\[\\e]0;\$\{debian_chroot:\+\(\$debian_chroot\)\}\\u@\\h
+    replace: '\[\e]0;${debian_chroot:+($debian_chroot)}{{ tab_name }}'
   tags:
     - rename-terminal-tab
